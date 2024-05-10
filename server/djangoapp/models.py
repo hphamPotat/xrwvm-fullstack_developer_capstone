@@ -15,25 +15,23 @@ class CarMake(models.Model):
 
 
 class CarModel(models.Model):
-    make = models.ForeignKey(CarMake, on_delete=models.CASCADE)
-    dealer_id = models.IntegerField()
+    car_make = models.ForeignKey(CarMake, on_delete=models.CASCADE)  # Many-to-One relationship
     name = models.CharField(max_length=100)
     CAR_TYPES = [
         ('SEDAN', 'Sedan'),
-        ('SUV', 'Suv'),
-        ('WAGON', 'Wagon')
+        ('SUV', 'SUV'),
+        ('WAGON', 'Wagon'),
+        # Add more choices as required
     ]
-    type_car = models.CharField(max_length=50, choices=CAR_TYPES, default='SUV')
-    year = models.DateField(
-        default=2023,
+    type = models.CharField(max_length=10, choices=CAR_TYPES, default='SUV')
+    year = models.IntegerField(default=2023,
         validators=[
             MaxValueValidator(2023),
             MinValueValidator(2015)
-        ]
-    )
-
+        ])
+    # Other fields as needed
     def __str__(self):
-        return self.name
+        return self.name  # Return the name as the string representation
 
 # <HINT> Create a Car Make model `class CarMake(models.Model)`:
 # - Name
