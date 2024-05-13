@@ -85,7 +85,6 @@ def get_dealer_details(request, dealer_id):
     if dealer_id:
         dealership = get_request(f'/fetchDealer/{dealer_id}')
         return JsonResponse({"status": 200, "dealer": dealership})
-    
     return JsonResponse({"status": 400, "message": "Bad Request"})
 
 
