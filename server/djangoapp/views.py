@@ -36,13 +36,11 @@ def logout_request(request):
 @csrf_exempt
 def registration(request):
     data = json.loads(request.body)
-
     username = data['userName']
     pwd = data['password']
     f_name = data['firstName']
     l_name = data['lastName']
     email = data['email']
-
     exists = User.objects.filter(username=username)
     if exists:
         return JsonResponse({'userName': username, 'error': 'Already Registered'})
@@ -59,13 +57,13 @@ def registration(request):
 
 
 def get_dealerships(request, state="All"):
-    if(state == "All"):
+    if state == "All":
         endpoint = "/fetchDealers"
     else:
         endpoint = f"/fetchDealers/{state}"
 
     dealerships = get_request(endpoint)
-    return JsonResponse({"status":200,"dealers":dealerships})
+    return JsonResponse({"status": 200,"dealers": dealerships})
 
 
 def get_dealer_reviews(request, dealer_id):
@@ -77,9 +75,9 @@ def get_dealer_reviews(request, dealer_id):
             res = analyze_review_sentiments(review['review'])
             review['sentiment'] = res['sentiment']
 
-        return JsonResponse({"status":200, "reviews":reviews})
+        return JsonResponse({"status": 200, "reviews": reviews})
 
-    return JsonResponse({"status":400,"message":"Bad Request"})
+    return JsonResponse({"status": 400,"message": "Bad Request"})
     
 
 def get_dealer_details(request, dealer_id):
@@ -105,10 +103,10 @@ def add_review(request):
 def get_cars(request):
     count = CarMake.objects.filter().count()
     print(count)
-    if(count == 0):
+    if not count:
         initiate()
     car_models = CarModel.objects.select_related('car_make')
     cars = []
     for car_model in car_models:
         cars.append({"CarModel": car_model.name, "CarMake": car_model.car_make.name})
-    return JsonResponse({"CarModels":cars})
+    return JsonResponse({"CarModels": cars})
