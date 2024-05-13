@@ -74,14 +74,11 @@ def get_dealer_reviews(request, dealer_id):
     if dealer_id:
         endpoint = f'/fetchReviews/dealer/{dealer_id}'
         reviews = get_request(endpoint)
-        
         for review in reviews:
             res = analyze_review_sentiments(review['review'])
             review['sentiment'] = res['sentiment']
-
         return JsonResponse({"status": 200, "reviews": reviews})
-
-    return JsonResponse({"status": 400,"message": "Bad Request"})
+    return JsonResponse({"status": 400, "message": "Bad Request"})
 
 
 def get_dealer_details(request, dealer_id):
@@ -99,9 +96,9 @@ def add_review(request):
             post_review(data)
             return JsonResponse({"status": 200})
         except Exception as err:
-            return JsonResponse({"status": 401,"message": f"{err}"})
+            return JsonResponse({"status": 401, "message": f"{err}"})
 
-    return JsonResponse({"status": 403,"message": "Unauthorized"})
+    return JsonResponse({"status": 403, "message": "Unauthorized"})
 
 
 def get_cars(request):
